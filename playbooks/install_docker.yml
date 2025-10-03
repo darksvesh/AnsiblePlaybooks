@@ -1,0 +1,32 @@
+---
+- name: Install Docker
+  hosts: install_hosts
+  become: true
+  vars:
+    keyring_path: /usr/share/keyrings/docker-archive-keyring.gpg
+    temp_key: /tmp/docker-archive-key.asc
+
+  tasks:
+    - name: Install prerequisites (ensure gpg available)
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+
+
+    - name: Add docker keys to apt
+      shell: sh AnsiblePlaybooks/scripts/get_docker_apt_keys.sh
+
+
+    - name: Try to install docker-ce packages
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+      register: install_result
+      ignore_errors: yes

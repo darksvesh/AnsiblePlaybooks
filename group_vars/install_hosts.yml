@@ -1,0 +1,5 @@
+docker_registry_url: "https://index.docker.io/v1/"
+docker_registry_user: "registryuser"
+docker_registry_password: "registrypassword"  
+create_user: "appuser"
+create_user_password_hash: ""
