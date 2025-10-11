@@ -78,7 +78,7 @@
        changed_when: false
        failed_when: sshd_syntax_check.rc != 0
 
-    - name: Restore backup if sshd syntax check failed (should not reach here because failed_when will stop)
+    - name: Restore backup if sshd syntax check failed
        when: sshd_syntax_check.rc != 0
        copy:
          src: "{{ sshd_backup.dest | default(ssh_config_path + '.bak-failed') }}"
@@ -86,7 +86,7 @@
          remote_src: yes
       ignore_errors: yes
 
-    - name: Restart ssh service (Ubuntu uses 'ssh')
+    - name: Restart ssh service 
        service:
          name: ssh
          state: restarted
