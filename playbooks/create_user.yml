@@ -1,0 +1,11 @@
+---
+- name: add user
+  hosts: install_hosts
+  become: true
+
+  tasks:
+      - name: Add user
+        ansible.builtin.user:
+            name: {{ user_name }}
+            password: "{{ user_password | password_hash('sha512') }}"
+            update_password: on_create

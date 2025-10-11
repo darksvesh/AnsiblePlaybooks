@@ -1,0 +1,13 @@
+---
+- name: Install certbot  and certificate tools
+  hosts: install_hosts
+  become: true
+
+  tasks:
+    - name: Install 
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - certbot
+        state: present

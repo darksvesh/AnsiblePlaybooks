@@ -1,0 +1,173 @@
+---
+- name: Make server file structure
+  hosts: install_hosts
+  become: true
+
+  tasks:
+      - name: Add group
+        ansible.builtin.group:
+            name: dockeruser
+            state: present
+  
+    - name: Add group
+        ansible.builtin.group:
+            name: serverusers
+            state: present
+    
+    - name: Add group
+        ansible.builtin.group:
+            name: servermaintainers
+            state: present
+	
+    - name: Add group
+        ansible.builtin.group:
+            name: storagemaintainers
+            state: present
+    
+    - name: Add group
+        ansible.builtin.group:
+            name: configmaintainers
+            state: present
+            
+    - name: Add group
+        ansible.builtin.group:
+            name: certificatemaintainers
+            state: present
+
+    - name: Add group
+        ansible.builtin.group:
+            name: repositorymaintainers
+            state: present    
+    
+    - name: Add user serveruser
+        ansible.builtin.user:
+            name: serveruser
+            home: /home/serveruser
+            shell: /usr/bin/nologin
+            password: "unnecessarily strong password to technical user account" 
+            groups: users, serverusers, servermaintainers
+            append: yes
+            createhome: yes
+            state: present
+	
+    - name: Add user vpnuser
+        ansible.builtin.user:
+            name: vpnuser
+            home: /home/vpnuser
+            shell: /usr/bin/nologin
+            password: "unnecessarily strong and even stronger password to technical user account" 
+            groups: users, serverusers, servermaintainers, configmaintainers, certificatemaintainers, dockeruser
+            append: yes
+            createhome: yes
+            state: present
+            
+    - name: Add user nasuser
+        ansible.builtin.user:
+            name: nasuser
+            home: /home/nasuser
+            shell: /usr/bin/nologin
+            password: "unnecessarily strongest password to technical user account" 
+            groups: users, serverusers, storagemaintainers
+            append: yes
+            createhome: yes
+            state: present
+
+    - name: Add user nastunnel
+        ansible.builtin.user:
+            name: nastunnel
+            home: /home/nastunnel
+            shell: /usr/bin/nologin
+            password: "mighty and strong password to technical user account" 
+            groups: users, serverusers, storagemaintainers
+            append: yes
+            createhome: yes
+            state: present
+            
+    - name: Add user storageuser
+        ansible.builtin.user:
+            name: storageuser
+            home: /home/storageuser
+            shell: /usr/bin/nologin
+            password: "strong and even stronger password to technical user account" 
+            groups: users, serverusers, servermaintainers, storagemaintainers
+            append: yes
+            createhome: yes
+            state: present
+            
+    - name: Add user certificateuser
+        ansible.builtin.user:
+            name: certificateuser
+            home: /home/certificateuser
+            shell: /usr/bin/nologin
+            password: "strong password to techcnical user account" 
+            groups: users, serverusers, servermaintainers, certificatemaintainers
+            append: yes
+            createhome: yes
+            state: present
+            
+    - name: Add user configuser
+        ansible.builtin.user:
+            name: configuser
+            home: /home/configuser
+            shell: /usr/bin/nologin
+            password: "stronger password to techcnical user account" 
+            groups: users, serverusers, servermaintainers, configmaintainers
+            append: yes
+            createhome: yes
+            state: present
+    
+    - name: Add user repositoryuser
+        ansible.builtin.user:
+            name: configuser
+            home: /home/configuser
+            shell: /usr/bin/nologin
+            password: "strongest password to techcnical user account" 
+            groups: users, serverusers, servermaintainers, repositorymaintainers
+            append: yes
+            createhome: yes
+            state: present
+            
+    - name: Add srv dir
+        ansible.builtin.file:
+            path: /srv
+            state: directory
+            mode: '0770'
+            recurse: yes
+            owner: serveruser
+            group: servermaintainers
+
+    - name: Add srv certs dir
+        ansible.builtin.file:
+            path: /srv/certs
+            state: directory
+            mode: '0770'
+            recurse: yes
+            owner: certificateuser
+            group: certificatemaintainers
+
+    - name: Add srv configs dir
+        ansible.builtin.file:
+            path: /srv/configs
+            state: directory
+            mode: '0770'
+            recurse: yes
+            owner: configuser
+            group: configmaintainers
+
+    - name: Add srv repos dir
+        ansible.builtin.file:
+            path: /srv/repos
+            state: directory
+            mode: '0770'
+            recurse: yes
+            owner: repositoryuser
+            group: repositorymaintainers
+
+    - name: Add srv storage dir
+        ansible.builtin.file:
+            path: /srv/storage
+            state: directory
+            mode: '0770'
+            recurse: yes
+            owner: storageuser
+            group: storagemaintainers
