@@ -10,7 +10,6 @@
         src: "{{ ssh_config_path }}"
         dest: "{{ ssh_config_path }}.bak-{{ ansible_date_time.iso8601_basic }}"
         remote_src: yes
-      notify: debug_backup
     - name: Check sshd config syntax before modifying (if sshd exists)
       command: sshd -t
       register: sshd_test_before
