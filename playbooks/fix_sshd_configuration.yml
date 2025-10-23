@@ -75,7 +75,7 @@
       copy:
         src: "{{ sshd_backup.dest | default(ssh_config_path + '.bak-failed') }}"
         dest: "{{ ssh_config_path }}"
-         remote_src: yes
+        remote_src: yes
       ignore_errors: yes
 
     - name: Restart ssh service 
