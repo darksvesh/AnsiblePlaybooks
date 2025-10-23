@@ -104,8 +104,8 @@
         state: present
     - name: Add user repositoryuser
       ansible.builtin.user:
-        name: configuser
-        home: /home/configuser
+        name: repositoryuser
+        home: /home/repositoryuser
         shell: /usr/bin/nologin
         password: "strongest password to techcnical user account" 
         groups: users, serverusers, servermaintainers, repositorymaintainers
