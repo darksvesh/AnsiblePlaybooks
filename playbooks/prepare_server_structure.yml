@@ -8,37 +8,30 @@
       ansible.builtin.group:
         name: dockeruser
         state: present
-  
     - name: Add group
       ansible.builtin.group:
         name: serverusers
         state: present
-    
     - name: Add group
       ansible.builtin.group:
         name: servermaintainers
         state: present
-	
     - name: Add group
       ansible.builtin.group:
         name: storagemaintainers
         state: present
-    
     - name: Add group
       ansible.builtin.group:
         name: configmaintainers
         state: present
-            
     - name: Add group
       ansible.builtin.group:
         name: certificatemaintainers
         state: present
-
     - name: Add group
       ansible.builtin.group:
         name: repositorymaintainers
         state: present    
-    
     - name: Add user serveruser
       ansible.builtin.user:
         name: serveruser
@@ -49,7 +42,6 @@
         append: yes
         createhome: yes
         state: present
-	
     - name: Add user vpnuser
       ansible.builtin.user:
         name: vpnuser
@@ -60,7 +52,6 @@
         append: yes
         createhome: yes
         state: present
-            
     - name: Add user nasuser
       ansible.builtin.user:
         name: nasuser
@@ -71,7 +62,6 @@
         append: yes
         createhome: yes
         state: present
-
     - name: Add user nastunnel
       ansible.builtin.user:
         name: nastunnel
@@ -81,8 +71,7 @@
         groups: users, serverusers, storagemaintainers
         append: yes
         createhome: yes
-        state: present
-            
+        state: present 
     - name: Add user storageuser
       ansible.builtin.user:
         name: storageuser
@@ -93,7 +82,6 @@
         append: yes
         createhome: yes
         state: present
-            
     - name: Add user certificateuser
       ansible.builtin.user:
         name: certificateuser
@@ -104,7 +92,6 @@
         append: yes
         createhome: yes
         state: present
-            
     - name: Add user configuser
       ansible.builtin.user:
         name: configuser
@@ -115,7 +102,6 @@
         append: yes
         createhome: yes
         state: present
-    
     - name: Add user repositoryuser
       ansible.builtin.user:
         name: configuser
@@ -125,8 +111,7 @@
         groups: users, serverusers, servermaintainers, repositorymaintainers
         append: yes
         createhome: yes
-        state: present
-            
+        state: present 
     - name: Add srv dir
       ansible.builtin.file:
         path: /srv
@@ -135,7 +120,6 @@
         recurse: yes
         owner: serveruser
         group: servermaintainers
-
     - name: Add srv certs dir
       ansible.builtin.file:
         path: /srv/certs
@@ -144,7 +128,6 @@
         recurse: yes
         owner: certificateuser
         group: certificatemaintainers
-
     - name: Add srv configs dir
       ansible.builtin.file:
         path: /srv/configs
@@ -153,7 +136,6 @@
         recurse: yes
         owner: configuser
         group: configmaintainers
-
     - name: Add srv repos dir
       ansible.builtin.file:
         path: /srv/repos
@@ -162,7 +144,6 @@
         recurse: yes
         owner: repositoryuser
         group: repositorymaintainers
-
     - name: Add srv storage dir
       ansible.builtin.file:
         path: /srv/storage
