@@ -18,7 +18,7 @@
 
 
     - name: Add docker keys to apt
-      shell: sh AnsiblePlaybooks/scripts/get_docker_apt_keys.sh
+      shell: sh /tmp/AnsiblePlaybooks/scripts/get_docker_apt_keys.sh
 
 
     - name: Try to install docker-ce packages
