@@ -6,7 +6,7 @@
   tasks:
     - name: Add user
       ansible.builtin.user:
-        name: {{ user_name }}
+        name: "{{ user_name }}"
         password: "{{ user_password | password_hash('sha512') }}"
         shell: /bin/bash
         groups: users, serverusers, servermaintainers
