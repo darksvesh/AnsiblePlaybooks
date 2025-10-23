@@ -5,84 +5,76 @@
   vars:
     ssh_config_path: /etc/ssh/sshd_config
   tasks:
-
     - name: Ensure backup of current sshd_config
-       copy:
-         src: "{{ ssh_config_path }}"
-         dest: "{{ ssh_config_path }}.bak-{{ ansible_date_time.iso8601_basic }}"
-         remote_src: yes
-       notify: debug_backup
-
+      copy:
+        src: "{{ ssh_config_path }}"
+        dest: "{{ ssh_config_path }}.bak-{{ ansible_date_time.iso8601_basic }}"
+        remote_src: yes
+      notify: debug_backup
     - name: Check sshd config syntax before modifying (if sshd exists)
-       command: sshd -t
-       register: sshd_test_before
-       ignore_errors: yes
-
+      command: sshd -t
+      register: sshd_test_before
+      ignore_errors: yes
     - name: Ensure PermitRootLogin is set to no (disable root login)
-       lineinfile:
-         path: "{{ ssh_config_path }}"
-         regexp: '^#?\s*PermitRootLogin\s+'
-         line: 'PermitRootLogin no'
-         backrefs: no
-         create: yes
-         backup: yes
-
+      lineinfile:
+        path: "{{ ssh_config_path }}"
+        regexp: '^#?\s*PermitRootLogin\s+'
+        line: 'PermitRootLogin no'
+        backrefs: no
+        create: yes
+        backup: yes
     - name: Ensure AllowTcpForwarding is set to no
-       lineinfile:
-         path: "{{ ssh_config_path }}"
-         regexp: '^#?\s*AllowTcpForwarding\s+'
-         line: 'AllowTcpForwarding no'
-         backrefs: no
-         create: yes
-         backup: yes
-
+      lineinfile:
+        path: "{{ ssh_config_path }}"
+        regexp: '^#?\s*AllowTcpForwarding\s+'
+        line: 'AllowTcpForwarding no'
+        backrefs: no
+        create: yes
+        backup: yes
     - name: Ensure GatewayPorts is set to no 
-       lineinfile:
-         path: "{{ ssh_config_path }}"
-         regexp: '^#?\s*GatewayPorts\s+'
-         line: 'GatewayPorts no'
-         backrefs: no
-         create: yes
-         backup: yes
-
+      lineinfile:
+        path: "{{ ssh_config_path }}"
+        regexp: '^#?\s*GatewayPorts\s+'
+        line: 'GatewayPorts no'
+        backrefs: no
+        create: yes
+        backup: yes
     - name: Ensure X11Forwarding is set to no 
-       lineinfile:
-         path: "{{ ssh_config_path }}"
-         regexp: '^#?\s*X11Forwarding\s+'
-         line: 'X11Forwarding no'
-         backrefs: no
-         create: yes
-         backup: yes
-
+      lineinfile:
+        path: "{{ ssh_config_path }}"
+        regexp: '^#?\s*X11Forwarding\s+'
+        line: 'X11Forwarding no'
+        backrefs: no
+        create: yes
+        backup: yes
     - name: Remove any existing Match User block for the same user (avoid duplicates)
-       blockinfile:
-         path: "{{ ssh_config_path }}"
-         marker: "# {mark} ANSIBLE_MATCH_USER_{{ match_user }}"
-         state: absent
-       when: "'ANSIBLE_MATCH_USER_' + match_user in lookup('file', ssh_config_path, errors='ignore', split_lines=False) | default('')"
-       ignore_errors: yes
-
+      blockinfile:
+        path: "{{ ssh_config_path }}"
+        marker: "# {mark} ANSIBLE_MATCH_USER_{{ match_user }}"
+        state: absent
+      when: "'ANSIBLE_MATCH_USER_' + match_user in lookup('file', ssh_config_path, errors='ignore', split_lines=False) | default('')"
+      ignore_errors: yes
     - name: Add Match User block to allow forwarding for {{ match_user }}
-       blockinfile:
-         path: "{{ ssh_config_path }}"
-         marker: "# {mark} ANSIBLE_MATCH_USER_{{ match_user }}"
-         insertafter: EOF
-         block: |
+      blockinfile:
+        path: "{{ ssh_config_path }}"
+        marker: "# {mark} ANSIBLE_MATCH_USER_{{ match_user }}"
+        insertafter: EOF
+        block: |
            Match User {{ match_user }}
                AllowTcpForwarding yes
                GatewayPorts yes
 
     - name: Validate sshd configuration syntax
-       command: sshd -t
-       register: sshd_syntax_check
-       changed_when: false
-       failed_when: sshd_syntax_check.rc != 0
+      command: sshd -t
+      register: sshd_syntax_check
+      changed_when: false
+      failed_when: sshd_syntax_check.rc != 0
 
     - name: Restore backup if sshd syntax check failed
-       when: sshd_syntax_check.rc != 0
-       copy:
-         src: "{{ sshd_backup.dest | default(ssh_config_path + '.bak-failed') }}"
-         dest: "{{ ssh_config_path }}"
+      when: sshd_syntax_check.rc != 0
+      copy:
+        src: "{{ sshd_backup.dest | default(ssh_config_path + '.bak-failed') }}"
+        dest: "{{ ssh_config_path }}"
          remote_src: yes
       ignore_errors: yes
 
