@@ -36,7 +36,7 @@
       ansible.builtin.user:
         name: serveruser
         home: /home/serveruser
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "unnecessarily strong password to technical user account" 
         groups: users, serverusers, servermaintainers
         append: yes
@@ -46,7 +46,7 @@
       ansible.builtin.user:
         name: vpnuser
         home: /home/vpnuser
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "unnecessarily strong and even stronger password to technical user account" 
         groups: users, serverusers, servermaintainers, configmaintainers, certificatemaintainers, dockeruser
         append: yes
@@ -56,7 +56,7 @@
       ansible.builtin.user:
         name: nasuser
         home: /home/nasuser
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "unnecessarily strongest password to technical user account" 
         groups: users, serverusers, storagemaintainers
         append: yes
@@ -66,7 +66,7 @@
       ansible.builtin.user:
         name: nastunnel
         home: /home/nastunnel
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "mighty and strong password to technical user account" 
         groups: users, serverusers, storagemaintainers
         append: yes
@@ -76,7 +76,7 @@
       ansible.builtin.user:
         name: storageuser
         home: /home/storageuser
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "strong and even stronger password to technical user account" 
         groups: users, serverusers, servermaintainers, storagemaintainers
         append: yes
@@ -86,7 +86,7 @@
       ansible.builtin.user:
         name: certificateuser
         home: /home/certificateuser
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "strong password to techcnical user account" 
         groups: users, serverusers, servermaintainers, certificatemaintainers
         append: yes
@@ -96,7 +96,7 @@
       ansible.builtin.user:
         name: configuser
         home: /home/configuser
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "stronger password to techcnical user account" 
         groups: users, serverusers, servermaintainers, configmaintainers
         append: yes
@@ -106,7 +106,7 @@
       ansible.builtin.user:
         name: repositoryuser
         home: /home/repositoryuser
-        shell: /usr/bin/nologin
+        shell: /usr/sbin/nologin
         password: "strongest password to techcnical user account" 
         groups: users, serverusers, servermaintainers, repositorymaintainers
         append: yes
